@@ -1,297 +1,100 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Portal - WAF Simulation</title>
+    <title>WAF Admin Console</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-        
-        .container {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-            width: 100%;
-            max-width: 600px;
-            padding: 40px;
-        }
-        
-        h1 {
-            color: #333;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-        
-        .subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 14px;
-        }
-        
-        .admin-section {
-            margin-bottom: 30px;
-        }
-        
-        .admin-section h2 {
-            font-size: 18px;
-            color: #f5576c;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #f5576c;
-            padding-bottom: 10px;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .stat-card {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-        }
-        
-        .stat-card .number {
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-        
-        .stat-card .label {
-            font-size: 12px;
-            opacity: 0.9;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: 600;
-        }
-        
-        input[type="text"],
-        input[type="email"],
-        input[type="password"],
-        textarea {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 5px;
-            font-size: 14px;
-            font-family: inherit;
-            transition: border-color 0.3s;
-        }
-        
-        input[type="text"]:focus,
-        input[type="email"]:focus,
-        input[type="password"]:focus,
-        textarea:focus {
-            outline: none;
-            border-color: #f5576c;
-        }
-        
-        textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-        
-        button {
-            padding: 12px 24px;
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(245, 87, 108, 0.4);
-        }
-        
-        .button-group {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .button-group button {
-            flex: 1;
-        }
-        
-        .nav-link {
-            text-align: center;
-            margin-top: 20px;
-        }
-        
-        .nav-link a {
-            color: #f5576c;
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s;
-        }
-        
-        .nav-link a:hover {
-            color: #f093fb;
-        }
-        
-        .warning {
-            background: #fff3cd;
-            border: 1px solid #ffc107;
-            color: #856404;
-            padding: 12px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            font-size: 14px;
-        }
-        
-        .message {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 5px;
-            display: none;
-        }
-        
-        .message.success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        
-        .message.error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
+        body { font-family: monospace; background: #1e1e24; color: #fff; padding: 20px; }
+        .container { display: flex; gap: 20px; }
+        .box { flex: 1; background: #2a2a35; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+        h2 { color: #00ff66; border-bottom: 1px solid #444; padding-bottom: 10px; }
+        label { display: block; margin: 10px 0 5px; color: #bbb; }
+        input, select { width: 90%; padding: 8px; background: #3a3a4a; border: 1px solid #555; color: white; font-family: monospace; }
+        button { background: #00ff66; color: black; padding: 10px 20px; border: none; cursor: pointer; font-weight: bold; margin-top: 15px; }
+        button:hover { background: #00cc52; }
+        .log-item { background: #1e1e24; padding: 10px; border-left: 4px solid #3498db; margin-top: 10px; }
     </style>
 </head>
 <body>
+    <h1>🛡️ Консоль керування Web Application Firewall (WAF)</h1>
+    
     <div class="container">
-        <h1>Admin Portal</h1>
-        <p class="subtitle">WAF Simulation - Administration Dashboard</p>
-        
-        <div class="warning">
-            ⚠️ This is a demonstration portal for WAF (Web Application Firewall) testing and educational purposes.
+        <!-- Блок налаштування правил -->
+        <div class="box">
+            <h2>Критерії блокування (Правила)</h2>
+            <p><small>Заповніть поле, щоб заблокувати відвідувача з такими параметрами:</small></p>
+            
+            <label>Блокувати IP адресу:</label>
+            <input type="text" id="ruleIp" placeholder="Наприклад: 127.0.0.1">
+
+            <label>Блокувати Бравзер:</label>
+            <select id="ruleBrowser">
+                <option value="">-- Не блокувати --</option>
+                <option value="Chrome">Chrome</option>
+                <option value="Firefox">Firefox</option>
+                <option value="Safari">Safari</option>
+            </select>
+
+            <label>Блокувати код мови системи (Accept-Language):</label>
+            <input type="text" id="ruleLanguage" placeholder="Наприклад: en, uk">
+
+            <label>Блокувати Країну (імітація за мовою):</label>
+            <input type="text" id="ruleCountry" placeholder="Наприклад: США або Україна">
+
+            <label>Блокувати HTTP Метод:</label>
+            <input type="text" id="ruleMethod" placeholder="GET або POST">
+
+            <button onclick="saveRules()">Застосувати правила WAF</button>
         </div>
-        
-        <div class="admin-section">
-            <h2>System Statistics</h2>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="number">1,234</div>
-                    <div class="label">Total Requests</div>
-                </div>
-                <div class="stat-card">
-                    <div class="number">42</div>
-                    <div class="label">Blocked Requests</div>
-                </div>
-                <div class="stat-card">
-                    <div class="number">8</div>
-                    <div class="label">Alerts</div>
-                </div>
-                <div class="stat-card">
-                    <div class="number">99.7%</div>
-                    <div class="label">Uptime</div>
-                </div>
+
+        <!-- Блок моніторингу користувачів -->
+        <div class="box">
+            <h2>Аналізатор трафіку (Останній запит)</h2>
+            <div id="visitorLog">
+                <p>Очікування відвідувачів...</p>
             </div>
-        </div>
-        
-        <div class="admin-section">
-            <h2>Security Configuration</h2>
-            <form id="adminForm">
-                <div class="form-group">
-                    <label for="adminUser">Admin Username:</label>
-                    <input type="text" id="adminUser" name="adminUser" required placeholder="Enter admin username">
-                </div>
-                
-                <div class="form-group">
-                    <label for="adminPassword">Password:</label>
-                    <input type="password" id="adminPassword" name="adminPassword" required placeholder="Enter password">
-                </div>
-                
-                <div class="form-group">
-                    <label for="wafRules">WAF Rules Configuration:</label>
-                    <textarea id="wafRules" name="wafRules" placeholder="Enter WAF rules..."></textarea>
-                </div>
-                
-                <div class="button-group">
-                    <button type="submit">Update Configuration</button>
-                    <button type="reset">Clear</button>
-                </div>
-            </form>
-        </div>
-        
-        <div id="responseMessage" class="message"></div>
-        
-        <div class="nav-link">
-            <a href="/">Back to User Portal</a>
+            <button onclick="loadStatus()" style="background:#3498db; color:white;">Оновити моніторинг</button>
         </div>
     </div>
-    
+
     <script>
-        document.getElementById('adminForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
+        async function loadStatus() {
+            const res = await fetch('/api/admin/status');
+            const data = await res.json();
             
-            const adminUser = document.getElementById('adminUser').value;
-            const adminPassword = document.getElementById('adminPassword').value;
-            const wafRules = document.getElementById('wafRules').value;
-            const responseDiv = document.getElementById('responseMessage');
-            
-            try {
-                const response = await fetch('/api/submit', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        username: adminUser,
-                        message: wafRules,
-                        type: 'admin'
-                    })
-                });
-                
-                const data = await response.json();
-                
-                responseDiv.textContent = 'Configuration updated successfully!';
-                responseDiv.className = 'message success';
-                responseDiv.style.display = 'block';
-                
-                document.getElementById('adminForm').reset();
-                
-                setTimeout(() => {
-                    responseDiv.style.display = 'none';
-                }, 5000);
-            } catch (error) {
-                responseDiv.textContent = 'Error: ' + error.message;
-                responseDiv.className = 'message error';
-                responseDiv.style.display = 'block';
-            }
-        });
+            // Заповнюємо логи користувача
+            const logBox = document.getElementById('visitorLog');
+            logBox.innerHTML = `
+                <div class="log-item"><strong>IP:</strong> ${data.lastVisitor.ip}</div>
+                <div class="log-item"><strong>Бравзер:</strong> ${data.lastVisitor.browser}</div>
+                <div class="log-item"><strong>Мова:</strong> ${data.lastVisitor.language}</div>
+                <div class="log-item"><strong>Країна:</strong> ${data.lastVisitor.country}</div>
+                <div class="log-item"><strong>Метод запиту:</strong> ${data.lastVisitor.method}</div>
+            `;
+        }
+
+        async function saveRules() {
+            const rules = {
+                ip: document.getElementById('ruleIp').value,
+                browser: document.getElementById('ruleBrowser').value,
+                language: document.getElementById('ruleLanguage').value,
+                country: document.getElementById('ruleCountry').value,
+                method: document.getElementById('ruleMethod').value
+            };
+
+            const res = await fetch('/api/admin/update', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(rules)
+            });
+            const data = await res.json();
+            alert(data.message);
+            loadStatus();
+        }
+
+        // Автооновлення кожні 3 секунди, щоб бачити заходи учнів
+        setInterval(loadStatus, 3000);
+        loadStatus();
     </script>
 </body>
 </html>
