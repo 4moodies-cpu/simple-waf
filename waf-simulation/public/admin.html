@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal - WAF Simulation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 600px;
+            padding: 40px;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .admin-section {
+            margin-bottom: 30px;
+        }
+        
+        .admin-section h2 {
+            font-size: 18px;
+            color: #f5576c;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #f5576c;
+            padding-bottom: 10px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .stat-card .number {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .stat-card .label {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+        
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #f5576c;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        button {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(245, 87, 108, 0.4);
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .button-group button {
+            flex: 1;
+        }
+        
+        .nav-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .nav-link a {
+            color: #f5576c;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        
+        .nav-link a:hover {
+            color: #f093fb;
+        }
+        
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            color: #856404;
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        
+        .message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Admin Portal</h1>
+        <p class="subtitle">WAF Simulation - Administration Dashboard</p>
+        
+        <div class="warning">
+            ⚠️ This is a demonstration portal for WAF (Web Application Firewall) testing and educational purposes.
+        </div>
+        
+        <div class="admin-section">
+            <h2>System Statistics</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="number">1,234</div>
+                    <div class="label">Total Requests</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">42</div>
+                    <div class="label">Blocked Requests</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">8</div>
+                    <div class="label">Alerts</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">99.7%</div>
+                    <div class="label">Uptime</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="admin-section">
+            <h2>Security Configuration</h2>
+            <form id="adminForm">
+                <div class="form-group">
+                    <label for="adminUser">Admin Username:</label>
+                    <input type="text" id="adminUser" name="adminUser" required placeholder="Enter admin username">
+                </div>
+                
+                <div class="form-group">
+                    <label for="adminPassword">Password:</label>
+                    <input type="password" id="adminPassword" name="adminPassword" required placeholder="Enter password">
+                </div>
+                
+                <div class="form-group">
+                    <label for="wafRules">WAF Rules Configuration:</label>
+                    <textarea id="wafRules" name="wafRules" placeholder="Enter WAF rules..."></textarea>
+                </div>
+                
+                <div class="button-group">
+                    <button type="submit">Update Configuration</button>
+                    <button type="reset">Clear</button>
+                </div>
+            </form>
+        </div>
+        
+        <div id="responseMessage" class="message"></div>
+        
+        <div class="nav-link">
+            <a href="/">Back to User Portal</a>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('adminForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const adminUser = document.getElementById('adminUser').value;
+            const adminPassword = document.getElementById('adminPassword').value;
+            const wafRules = document.getElementById('wafRules').value;
+            const responseDiv = document.getElementById('responseMessage');
+            
+            try {
+                const response = await fetch('/api/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: adminUser,
+                        message: wafRules,
+                        type: 'admin'
+                    })
+                });
+                
+                const data = await response.json();
+                
+                responseDiv.textContent = 'Configuration updated successfully!';
+                responseDiv.className = 'message success';
+                responseDiv.style.display = 'block';
+                
+                document.getElementById('adminForm').reset();
+                
+                setTimeout(() => {
+                    responseDiv.style.display = 'none';
+                }, 5000);
+            } catch (error) {
+                responseDiv.textContent = 'Error: ' + error.message;
+                responseDiv.className = 'message error';
+                responseDiv.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
